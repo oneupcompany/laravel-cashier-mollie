@@ -45,7 +45,8 @@ class UpdatePaymentMethodBuilder implements Contract
     public function create()
     {
         $payment = (new FirstPaymentBuilder($this->owner))
-            ->setRedirectUrl(config('cashier.update_payment_method.redirect_url'))
+            // TODO: Revert when https://github.com/mollie/laravel-cashier-mollie/issues/136 is fixed by Mollie
+            // ->setRedirectUrl(config('cashier.update_payment_method.redirect_url'))
             ->setFirstPaymentMethod($this->allowedPaymentMethods())
             ->inOrderTo($this->getPaymentActions())
             ->create();

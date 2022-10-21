@@ -77,7 +77,9 @@ class FirstPaymentBuilder
         $this->actions = new ActionCollection;
         $this->options = $options;
         $this->description = config('app.name', 'First payment');
-        $this->redirectUrl = url(config('cashier.first_payment.redirect_url', config('cashier.redirect_url')));
+        // TODO: Revert when https://github.com/mollie/laravel-cashier-mollie/issues/136 is fixed by Mollie
+        $this->redirectUrl = url(config('app.url'));
+        // $this->redirectUrl = url(config('cashier.first_payment.redirect_url', config('cashier.redirect_url')));
         $this->webhookUrl = url(config('cashier.first_payment.webhook_url'));
     }
 
@@ -132,7 +134,9 @@ class FirstPaymentBuilder
 
         Cashier::$paymentModel::createFromMolliePayment($this->molliePayment, $this->owner, $this->actions->toPlainArray());
 
-        $redirectUrl = $payload['redirectUrl'];
+        // TODO: Revert when https://github.com/mollie/laravel-cashier-mollie/issues/136 is fixed by Mollie
+        $redirectUrl = url(config('cashier.first_payment.redirect_url', config('cashier.redirect_url')));
+        // $redirectUrl = $payload['redirectUrl'];
 
         // Parse and update redirectUrl
         if (Str::contains($redirectUrl, '{payment_id}')) {
